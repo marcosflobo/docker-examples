@@ -1,2 +1,2 @@
 # docker-examples
-Docker examples
+In this repository you will find several docker-related examples. 

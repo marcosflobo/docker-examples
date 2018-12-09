@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+    nginx_img_1:
+        container_name: my_load_balance_service_nginx_1
+        build: ./nginx/1
+        expose:
+            - 80
+        networks:
+            public_net:
+                ipv4_address: 192.168.0.11
+    nginx_img_2:
+        container_name: my_load_balance_service_nginx_2
+        build: ./nginx/2
+        expose:
+            - 80
+        networks:
+            public_net:
+                ipv4_address: 192.168.0.22
+    haproxy_img:
+        build: ./haproxy
+        ports:
+            - 80:80
+        expose:
+            - 80
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+            public_net:
+                ipv4_address: 192.168.0.33
+networks:
+    public_net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 192.168.0.0/24
